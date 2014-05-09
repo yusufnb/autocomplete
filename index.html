@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Simple Autocomplete</title>
+	<style>
+  	.options { border: 1px solid #f2f2f2;}
+	.options > a {display: block; cursor: pointer; border-bottom: 1px dotted #f2f2f2; }
+	.options > a:last-child { border-bottom: none; }
+	.options > a:hover { background: #f2f2f2; }
+	.options > a.selected { background: #f2f2f2; }
+	</style>
+</head>
+<body>
+	<table>
+	<tr>
+		<td><input type="text" name="fruits" placeholder="Data altered" /></td>
+		<td><br/><input type="text" name="places" placeholder="Ajax load" /></td>
+		<td><br/><br/><input class="country" type="text" name="language" placeholder="Type Country Here" /></td>
+		<td><br/><br/><br/><input class="country" type="text" name="country" placeholder="Or Here" /></td>
+	</tr>
+	</table>
+	<script src="autocomplete.js"></script>
+	<script>
+
+	// Usage examples
+
+	var ac1 = autoComplete('input[name="fruits"]', ['Apple', 'Banana', 'Oranges', 'Grapes']);
+	// Changing data using public methods
+	ac1.data.set(['Raw Apple', 'Ripe Banana','Juicy Oranges','Sweet Grapes']);
+
+	// Mocking Ajax request
+	var ajaxData = ['San Francisco', 'Orange County', 'Santa Monica', 'Silicon Valley'];
+	var ac2 = autoComplete(document.getElementsByName('places')[0], function(str, callback){
+		setTimeout(function(){
+			var subset = [];
+			for (var i in ajaxData) if (ajaxData[i].indexOf(str) !== -1) subset.push(ajaxData[i]);
+			callback(subset);
+		}, 1000);
+	});
+
+	// Binding same data to multiple elements
+	var ac3 = autoComplete(document.getElementsByClassName('country'), ['USA','Brazil','Mexico','Canada']);
+
+	</script>
+</body>
+</html>
